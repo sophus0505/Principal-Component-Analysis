@@ -1,5 +1,7 @@
-# IN3050/IN4050 Mandatory Assignment 3: Unsupervised Learning
+
 # Principal Component Analysis (PCA)
+
+## Coursework in IN3050
 
 
 ## Task 1: Implementation of PCA
@@ -153,7 +155,7 @@ We use PCA on the images to compless them by removing potentially unnecessary fe
    This is because we effectively remove features from the faces using PCA and only keep the m most relevant features.
    The interesting part is that even though the faces appear weird and distorted for low values of m, they are still recognizable, which means that they should still be usable as a simplified dataset. 
 
-## Master Students: PCA Tuning
+##  PCA Tuning:
 If we use PCA for compression or decompression, it may be not trivial to decide how many dimensions to keep. In this section we review a principled way to decide how many dimensions to keep.
 
 The number of dimensions to keep is the only *hyper-parameter* of PCA. A method designed to decide how many dimensions/eigenvectors is the *proportion of variance*:
@@ -161,8 +163,6 @@ $$ \textrm{POV}=\frac{\sum_{i=1}^{m}{\lambda_{i}}}{\sum_{j=1}^{M}{\lambda_{j}}},
 where $\lambda$ are eigenvalues, $M$ is the dimensionality of the original data, and $m$ is the chosen lower dimensionality. 
 
 Using the $POV$ formula we may select a number $M$ of dimensions/eigenvalues so that the proportion of variance is, for instance, equal to 95%.
-
-Implement a new PCA for encoding and decoding that receives in input not the number of dimensions for projection, but the amount of proportion of variance to be preserved.
 
 We use the *proportion of variance* method to decide the value of $m$ to use in the PCA algorithm. We set the proportion of variance equal to 0.9 which we use to calculate $m$. The result is that $m=85$.
 An example face before and after tuning is given below.
@@ -175,8 +175,8 @@ An example face before and after tuning is given below.
 **Comment:** 
  - We see that the tuning sets m to 85 wich is a low value and leads to a pretty distorted face. This might mean that the algorithm thinks that is enough dimensions to keep while still keeping enough variance in the data. 
 
-# K-Means Clustering (Bachelor and master students)
-In this section you will use the *k-means clustering* algorithm to perform unsupervised clustering. We perform the algorithm on the iris data used before. The results are shown below.
+# K-Means Clustering:
+In this section we use the *k-means clustering* algorithm to perform unsupervised clustering. We perform the algorithm on the iris data used before. The results are shown below.
 
     
 ![Original data from the iris dataset.](figures/output_99_0.png)
@@ -188,7 +188,7 @@ In this section you will use the *k-means clustering* algorithm to perform unsup
 **Comment:**
  - We see that the K-Means algorithm manages to separate clusters effectively and that for k=3 it resembles the original data quite accurately. However, it does not know how to label the clusters, so the actual accuracy is close to useless. 
 
-# Quantitative Assessment of K-Means (Bachelor and master students)
+# Quantitative Assessment of K-Means:
 
 We are given the following tasks to perform:
 - Train a Logistic regression model using the first two dimensions of the PCA of the iris data set as input, and the true classes as targets.

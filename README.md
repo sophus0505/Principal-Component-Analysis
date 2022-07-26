@@ -1,7 +1,7 @@
 
 # Principal Component Analysis (PCA)
 
-## Coursework in IN3050
+## Coursework in IN3050 
 
 
 ## Task 1: Implementation of PCA

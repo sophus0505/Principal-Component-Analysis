@@ -1,36 +1,10 @@
 # IN3050/IN4050 Mandatory Assignment 3: Unsupervised Learning
-
-**Name:**
-
-**Username:**
-
-
 # Principal Component Analysis (PCA)
-In this section, you will work with the PCA algorithm in order to understand its definition and explore its uses.
 
-### Principle of Maximum Variance: what is PCA supposed to do?
-First of all, let us recall the principle/assumption of PCA:
-
- 1. What is the variance?
-     - The variance is a measure of how far away a dataset spreads out from its mean value. It is calculated by taking the square of the standard deviation.
- 2. What is the covariance?
-     - The covariance measures the relation between two datasets. If the covariance is high, it means that the two datasets are likely to have similar values (high/low) at the same time (they move in the same direction).
-       If the covaiance is negative, it means that the datasets tend to have different values at the same time (they move in opposite directions). 
- 3. How do we compute the covariance matrix?
-     - Lets say we have a dataset $X \in \mathcal{R}^{N \times M}$, consisting of $N$ datapoints $\mathbf{x}_i = (\mathbf{x}_{1,i} \;, \mathbf{x}_{2,i}\;, \dots, \mathbf{x}_{M,i})$ with $M$ features.
-       To calculate the covariance matrix $Cov(X)$ it would first be beneficial to centre the data in a new matrix $P$ by subtracting each column by its mean. 
-       The covariance matrix can then be computed as $ Cov(X) = 1/N \cdot P^TP$.
- 4. What is the meaning of the principle of maximum variance?
-     - The principle of maximum variance means that we should rotate the dataset such that one of the axis point in the direction of the maximum  variance. 
- 5. Why do we need this principle?
-     - the principle of maximum variance should be followed to make sure that we keep as much information as possible when we remove dimensions from the original          dataset. If we don't follow the principle, we might end up with a clustering of non-separable data, which would be hard to analyze. 
- 6. does the principle always apply?
-     - Yes, because we always want to keep information about the different features in the dataset, and using the principle of maximum variance keeps the maximum amount of information.
 
 ## Task 1: Implementation of PCA
 
-We implement the PCA algorithm by using the framework from the notebook and instructions given in Marshland. 
-the algorithm can be summarized in the following steps: 
+The implementation of the PCA algorithm can be summarized into the following steps: 
 
 1. Collect the data in a matrix $X \in \mathcal{R}^{N \times M}$, where every column represents an attribute. 
 2. Centre the data by subtracting the mean of each column off X and call the new matrix $B$.
@@ -67,49 +41,47 @@ def pca(A,m):
 
     return pca_eigvec, P.T
 ```
-\newpage
+
 
 Next we test the algorithm on some test data. We load a small synthetic dataset with two features from the module *syntheticdata*.
-The data is visualized in figure \ref{fig: data1} below. 
+The data is visualized in the figure  below. 
 
     
-![A figure of the test data.\label{fig: data1}](output_36_0.png){ width=320px }
+![A figure of the test data.](figures/output_36_0.png)
     
-A figure showing the data after centering is shown in figure \ref{fig: data1 centered} below.
+A figure showing the data after centering is shown in the figure below.
 
     
-![The test data after being centered.\label{fig: data1 centered}](output_38_0.png){ width=320px }
+![The test data after being centered.](figures/output_38_0.png)
     
-\newpage
 
 ### Visualize the first eigenvector
 
-We want to visualize how the PCA algorithm works on the synthetic dataset. We use our PCA function to calculate the new data and the eigenvector that points in the direction of maximum variance. The results are shown in figure \ref{fig: data1 eigvec} and figure \ref{fig: data1 PCA}.
+We want to visualize how the PCA algorithm works on the synthetic dataset. We use our PCA function to calculate the new data and the eigenvector that points in the direction of maximum variance.
     
-![The first dataset with the corresponding eigenvector pointing in the direction of maximum variance. \label{fig: data1 eigvec}](output_40_1.png){ width=320px }
+![The first dataset with the corresponding eigenvector pointing in the direction of maximum variance. ](figures/output_40_1.png)
     
 
-![The result on the first dataset after running it through PCA. \label{fig: data1 PCA}](output_42_0.png){ width=320px }
+![The result on the first dataset after running it through PCA.](figures/output_42_0.png)
     
-\newpage
+
 
 ## Evaluation: when are the results of PCA sensible?
 So far we have used PCA on synthetic data. Let us now imagine we are using PCA as a pre-processing step before a classification task. This is a common setup with high-dimensional data. We explore when the use of PCA is sensible.
 
-We load a similar set of data, with labels and perform the same steps as above. The results are shown in figure \ref{fig: data2} and figure \ref{fig: data2 PCA}.
+We load a similar set of data, with labels and perform the same steps as above. 
 
     
-![Dataset with two classes. \label{fig: data2}](output_47_0.png){ width=320px }
+![Dataset with two classes.](figures/output_47_0.png)
     
 
-![The second dataset after being run though PCA. \label{fig: data2 PCA}](output_47_1.png){ width=320px }
+![The second dataset after being run though PCA.](figures/output_47_1.png)
     
 
 
 **Comment:** 
  - We can see that the dataset is almost separable and have a high variance, both are characteristics that are preserved after using PCA. In this case it seems that the use of PCA is reasonable. 
 
- \newpage
 
 ### Loading the second set of labels
 We now load a third dataset with different labels and run the procedure as normal. 
@@ -117,10 +89,10 @@ This time we also plot the direction of the eigenvectors as well as their sum (w
 The dataset is shown in figure \ref{fig: data3}, and the results after PCA is shown in figure \ref{fig: data3 PCA}.
 
     
-![The third dataset, with the direction of the eigenvectors and their sum plotted on top. \label{fig: data3}](output_52_0.png){ width=400px }
+![The third dataset, with the direction of the eigenvectors and their sum plotted on top.](figures/output_52_0.png)
     
     
-![The results after running PCA on the third dataset. \label{fig: data3 PCA}](output_52_1.png)
+![The results after running PCA on the third dataset.](figures/output_52_1.png)
     
 **Comment:** 
  - We see that using the first eigenvector we get bad separation between the classes as they lie on top of each other in the direction of maxmimum variance. However the result is more separable when using the second eigenvector, which means that it might be more beneficial in this case to use the second eigenvectore instead. The second eigenvector is orthogonal to the first eigenvector (it looks skewed because of the plotting) so it will preserve more information from the data after PCA. Lastly we see that if we add the two vectors together we get a third vector that is also by definition an eigenvector, that can be used instead. It it represented in the figure above, and would possibly give even better separation in 1D. 
@@ -138,14 +110,14 @@ We now consider the *iris* dataset, a simple collection of data (N=150) describi
 
 Visualizing a 4-dimensional dataset is impossible; therefore we will use PCA to project our data in 2 dimensions and visualize it.
 To do this we select two random features and show them in a figure before and after PCA.
-The results are shown in figure \ref{fig: iris} and figure \ref{fig: iris PCA}.
+The results are shown below.
 
 
     
-![A visualization of two randomly chosen features from the iris dataset before PCA. \label{fig: iris}](output_61_0.png){ width=320px }
+![A visualization of two randomly chosen features from the iris dataset before PCA.](figures/output_61_0.png)
     
     
-![A visualization of the two randomly chosen features from the iris dataset after PCA. \label{fig: iris PCA}](output_63_0.png){ width=320px }
+![A visualization of the two randomly chosen features from the iris dataset after PCA.](figures/output_63_0.png)
     
 
 
@@ -159,20 +131,20 @@ We now consider the *faces in the wild (lfw)* dataset, a collection of pictures 
 We use PCA on the images to compless them by removing potentially unnecessary features and then reconstruct the image back into its original size. The results using different values of $m$ is shown in figure \ref{fig: faces}.
 
 
-![\ ](output_79_0.png){ width=350px margin=auto}
-\ 
-  
-![\ ](output_79_1.png){ width=350px}
-\   
-  
-![\ ](output_79_2.png){ width=350px}
-\ 
-
-![\ ](output_79_3.png){ width=350px}
-\ 
+![\ ](figures/output_79_0.png)
 
   
-![Faces from the dataset with PCA compression for different values of $m$.\label{fig: faces}](output_79_4.png){ width=350px}
+![\ ](figures/output_79_1.png)
+ 
+  
+![\ ](figures/output_79_2.png)
+
+
+![\ ](figures/output_79_3.png)
+
+
+  
+![Faces from the dataset with PCA compression for different values of $m$.](figures/output_79_4.png)
     
 
 
@@ -193,23 +165,23 @@ Using the $POV$ formula we may select a number $M$ of dimensions/eigenvalues so 
 Implement a new PCA for encoding and decoding that receives in input not the number of dimensions for projection, but the amount of proportion of variance to be preserved.
 
 We use the *proportion of variance* method to decide the value of $m$ to use in the PCA algorithm. We set the proportion of variance equal to 0.9 which we use to calculate $m$. The result is that $m=85$.
-An example face before and after tuning is given in figure \ref{fig: face} and figure \ref{face tuned}.
+An example face before and after tuning is given below.
     
-![Face before PCA tuning. \label{fig: face}](output_86_0.png)
+![Face before PCA tuning.](figures/output_86_0.png)
 
     
-![Face after PCA tuning using $m=85$. \label{fig: face tuned}](output_86_1.png)
+![Face after PCA tuning using $m=85$.](figures/output_86_1.png)
 
 **Comment:** 
  - We see that the tuning sets m to 85 wich is a low value and leads to a pretty distorted face. This might mean that the algorithm thinks that is enough dimensions to keep while still keeping enough variance in the data. 
 
 # K-Means Clustering (Bachelor and master students)
-In this section you will use the *k-means clustering* algorithm to perform unsupervised clustering. We perform the algorithm on the iris data used before. The results are shown in figure \ref{fig: iris data} and figure \ref{fig: iris cluster}.
+In this section you will use the *k-means clustering* algorithm to perform unsupervised clustering. We perform the algorithm on the iris data used before. The results are shown below.
 
     
-![Original data from the iris dataset. \ref{fig: iris data}](output_99_0.png){ width=350px }
+![Original data from the iris dataset.](figures/output_99_0.png)
     
-![Results after K-Means clustering for different $k$-values. \ref{fig: iris cluster}](output_99_1.png)
+![Results after K-Means clustering for different $k$-values.](figures/output_99_1.png)
     
 
 
@@ -245,24 +217,23 @@ Now we perform the K-Means algorithm for $k = 2, 3, 4, 5$ and report the accurac
 ```
 
 Then we visualize how the original data compare to the different results using K-Means clustering for all values of k,
-the results are shown in figure \ref{fig: comp}.
-\newpage
+the results are shown in below.
     
-![png](output_110_1.png)
-\ 
-![png](output_110_2.png)
-\ 
-![png](output_110_3.png)
-\ 
+![png](figures/output_110_1.png)
+
+![png](figures/output_110_2.png)
+
+![png](figures/output_110_3.png)
 
 
-![How the original data compare to the different results ising K-Means clustering for different $k$-values. \label{fig: comp}](output_110_4.png)
+
+![How the original data compare to the different results ising K-Means clustering for different $k$-values.](figures/output_110_4.png)
 
     
 
-Lastly we plot the accuracy as a function of $k$ in figure \ref{fig: acc}
+Lastly we plot the accuracy as a function of $k$.
     
-![The accuracy of K-Means clustering as a funciton of $k$. \label{fig: acc}](output_111_1.png)
+![The accuracy of K-Means clustering as a funciton of $k$.](figures/output_111_1.png)
     
 
 
